@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الخدمات الإلكترونية | سوريا</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      AOS.init({ duration: 1000, once: true });
+    });
+  </script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <header class="bg-blue-900 text-white p-4 flex justify-between items-center shadow">
+    <div class="flex items-center gap-4">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Coat_of_arms_of_Syria.svg/64px-Coat_of_arms_of_Syria.svg.png" alt="شعار سوريا" class="w-10 h-10">
+      <div>
+        <h1 class="text-xl font-bold">الجمهورية العربية السورية</h1>
+        <p class="text-sm">الخدمات الإلكترونية الرسمية</p>
+      </div>
+    </div>
+    <nav class="space-x-4 rtl:space-x-reverse">
+      <a href="/" class="hover:underline">الرئيسية</a>
+      <a href="#">اتصل بنا</a>
+    </nav>
+  </header>
+
+  <main class="max-w-7xl mx-auto p-6">
+    <h2 class="text-3xl font-bold text-blue-900 text-center mb-6" data-aos="fade-down">الخدمات الإلكترونية المتاحة</h2>
+
+    <div class="flex justify-between items-center mb-6">
+      <input type="text" placeholder="🔍 ابحث عن خدمة..." class="w-full max-w-md p-3 border border-gray-300 rounded-lg shadow">
+      <select class="ml-4 p-3 border border-gray-300 rounded-lg">
+        <option>كل الفئات</option>
+        <option>الجوازات</option>
+        <option>الإقامة</option>
+        <option>التراخيص</option>
+      </select>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for service in services %}
+      <div class="bg-white border border-gray-200 p-5 rounded-xl shadow-md hover:shadow-lg transition-all" data-aos="zoom-in">
+        <div class="flex items-center gap-2 mb-3">
+          <svg class="w-6 h-6 text-blue-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          </svg>
+          <h3 class="text-xl font-semibold text-blue-800">{{ service.name }}</h3>
+        </div>
+        <p class="text-gray-600 mb-4">{{ service.description }}</p>
+        <a href="{% url 'service-request' %}" class="inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow">طلب الخدمة</a>
+      </div>
+      {% endfor %}
+    </div>
+  </main>
+
+  <footer class="bg-gray-100 mt-12 border-t py-6 text-center text-sm text-gray-700 relative">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Flag_of_Syria.svg/1280px-Flag_of_Syria.svg.png" alt="العلم السوري" class="w-24 absolute left-4 top-1">
+    <p>© الجمهورية العربية السورية – جميع الحقوق محفوظة</p>
+    <p>📞 0111234567 | 📍 دمشق - ساحة الأمويين</p>
+  </footer>
+</body>
+</html>
