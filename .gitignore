@@ -1,1 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Django
+*.sqlite3
+*.db
+.env
+
+# Virtual Environment
 venv/
+env/
+
+# Media/Static (لو في رفع ملفات)
+media/
+static/
+
+# System
+.DS_Store
+Thumbs.db
