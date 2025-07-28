@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>المنصة الحكومية السورية</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      AOS.init({ duration: 800, once: true });
+
+      const welcomeMessage = document.getElementById("welcome-popup");
+      if (welcomeMessage) {
+        setTimeout(() => {
+          welcomeMessage.classList.remove("hidden");
+        }, 500);
+        setTimeout(() => {
+          welcomeMessage.classList.add("hidden");
+        }, 5000);
+      }
+    });
+  </script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+  {% if messages %}
+    <div id="welcome-popup" class="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg hidden z-50">
+      {% for message in messages %}
+        {{ message }}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <header class="bg-blue-900 text-white shadow sticky top-0 z-50">
+    <div class="container mx-auto flex justify-between items-center px-6 py-3">
+      <div class="flex items-center gap-2">
+        <img src="{% static 'img/logo.jpg' %}" alt="شعار الجمهورية" class="w-10 h-10">
+        <span class="font-bold text-lg md:text-xl whitespace-nowrap">الجمهورية العربية السورية</span>
+      </div>
+      <nav class="flex gap-4 md:gap-8 items-center text-sm md:text-base">
+        <a href="/" class="hover:underline">الرئيسية</a>
+        <a href="/services/" class="hover:underline">الخدمات</a>
+        <a href="/appointments/booking/" class="hover:underline">حجز موعد</a>
+        <a href="/appointments/my_appointments/" class="hover:underline">مواعيدي</a>
+
+        {% if user.is_authenticated %}
+          <span class="text-white font-semibold">مرحباً، {{ user.username }}</span>
+          <form method="post" action="{% url 'logout' %}" class="inline">
+            {% csrf_token %}
+            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">تسجيل الخروج</button>
+          </form>
+        {% else %}
+          <a href="/accounts/login/" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded">دخول</a>
+          <a href="/accounts/register/" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">تسجيل</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="bg-white mt-12 border-t py-6 text-center text-sm text-gray-600">
+    <div class="flex flex-col items-center gap-2">
+      <img src="{% static 'img/flag.png' %}" alt="علم سوريا" class="w-12 h-auto">
+      <p>© الجمهورية العربية السورية – جميع الحقوق محفوظة</p>
+      <p>📍 دمشق، سوريا – ☎ 011-1234567</p>
+    </div>
+  </footer>
+</body>
+</html>

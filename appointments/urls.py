@@ -4,7 +4,7 @@ from appointments import views
 
 urlpatterns = [
     path('booking/', booking_view, name='booking'),
-    path('my-appointments/', user_appointments, name='my-appointments'),
+    path('my_appointments/', user_appointments, name='my-appointments'),
     path('employee/', employee_appointments, name='employee-appointments'),
     path('employee/confirm/<int:appointment_id>/', confirm_appointment, name='confirm-appointment'),
     path('admin/appointments/', admin_appointments, name='admin-appointments'),

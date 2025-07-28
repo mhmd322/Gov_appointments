@@ -127,6 +127,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static',]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -159,5 +162,16 @@ USE_TZ = True
 # ✅ 4. إعدادات إضافية
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'      
-LOGIN_REDIRECT_URL = 'role-redirect'
+LOGIN_REDIRECT_URL = '/users/redirect/'
 LOGOUT_REDIRECT_URL = 'login'
+
+# ✅ 5. إعدادات الرسائل
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'bg-blue-100 border-blue-400 text-blue-700',
+    messages.INFO: 'bg-blue-100 border-blue-400 text-blue-700',
+    messages.SUCCESS: 'bg-green-100 border-green-400 text-green-700',
+    messages.WARNING: 'bg-yellow-100 border-yellow-400 text-yellow-700',
+    messages.ERROR: 'bg-red-100 border-red-400 text-red-700',
+}   

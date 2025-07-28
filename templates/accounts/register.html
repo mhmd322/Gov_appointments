@@ -1,9 +1,119 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
 {% block content %}
-<h2 class="text-xl font-bold text-center mb-4">إنشاء حساب جديد</h2>
-<form method="post" class="max-w-md mx-auto">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">تسجيل</button>
-</form>
+<section class="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full bg-white shadow-2xl rounded-xl p-8" data-aos="fade-up">
+    <div class="mb-6 text-center">
+      <img src="{% static 'img/register.jpg' %}" alt="Register" class="mx-auto w-20 mb-4">
+      <h2 class="text-3xl font-extrabold text-blue-900">إنشاء حساب جديد</h2>
+      <p class="text-sm text-gray-500 mt-2">املأ جميع المعلومات للتسجيل وبدء استخدام المنصة</p>
+    </div>
+
+    <!-- رسائل Django messages -->
+    {% if messages %}
+      <div class="mb-4">
+        {% for message in messages %}
+          <div class="px-4 py-3 rounded {{ message.tags }} bg-green-100 text-green-800 mb-2">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- عرض أخطاء النموذج -->
+    {% if form.errors %}
+      <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+        <ul class="list-disc list-inside text-right">
+          {% for field in form %}
+            {% for error in field.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          {% endfor %}
+          {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <form method="post" class="space-y-5">
+      {% csrf_token %}
+      <div>
+        <label class="block text-sm font-medium text-gray-700">اسم المستخدم</label>
+        <div class="relative">
+          <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5.121 17.804A9 9 0 1112 21a9 9 0 01-6.879-3.196z" /></svg>
+          </span>
+          {{ form.username|add_class:'pl-10 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500' }}
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">كلمة المرور</label>
+        <div class="relative">
+          <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 15v2m0 0a4 4 0 100-8 4 4 0 000 8zm0 0v2m0-2a4 4 0 100-8 4 4 0 000 8z" /></svg>
+          </span>
+          {{ form.password1|add_class:'pl-10 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 password-input' }}
+          <button type="button" onclick="togglePassword('id_password1')" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 focus:outline-none">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-.274.832-.642 1.627-1.09 2.367" /></svg>
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">تأكيد كلمة المرور</label>
+        <div class="relative">
+          <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 15v2m0 0a4 4 0 100-8 4 4 0 000 8zm0 0v2m0-2a4 4 0 100-8 4 4 0 000 8z" /></svg>
+          </span>
+          {{ form.password2|add_class:'pl-10 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 password-input' }}
+          <button type="button" onclick="togglePassword('id_password2')" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 focus:outline-none">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-.274.832-.642 1.627-1.09 2.367" /></svg>
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">الرقم الوطني</label>
+        {{ form.national_id|add_class:'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500' }}
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">رقم الهاتف</label>
+        {{ form.phone|add_class:'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500' }}
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">العنوان</label>
+        {{ form.address|add_class:'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500' }}
+      </div>
+
+      <div>
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-150">
+          إنشاء الحساب
+        </button>
+      </div>
+    </form>
+
+    <div class="mt-6 text-center">
+      <p class="text-sm text-gray-600">
+        لديك حساب بالفعل؟
+        <a href="{% url 'login' %}" class="text-blue-600 hover:underline font-semibold">تسجيل الدخول</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- جافاسكريبت لإظهار/إخفاء كلمة المرور -->
+<script>
+function togglePassword(fieldId) {
+  const input = document.getElementById(fieldId);
+  if (input) {
+    input.type = input.type === "password" ? "text" : "password";
+  }
+}
+</script>
 {% endblock %}

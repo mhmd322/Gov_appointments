@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import redirect_after_login, CustomLoginView, profile_view, employee_dashboard
+from accounts.views import CustomLoginView  # استيراد من accounts
+from .views import redirect_after_login, profile_view, employee_dashboard
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [

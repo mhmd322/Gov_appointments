@@ -5,13 +5,21 @@ from .forms import RequestForm
 from django.contrib.auth.decorators import login_required
 
 
-def service_list(request):
-    services = Service.objects.all()
-    return render(request, 'services/service_list.html', {'services': services})
 
+def service_list(request):
+    q = request.GET.get('q', '')
+    services = Service.objects.all()
+    if q:
+        services = services.filter(name__icontains=q)
+    return render(request, 'services/service_list.html', {'services': services})
 
 @login_required
 def service_request(request):
+    service_id = request.GET.get('service_id')
+    initial_data = {}
+    if service_id:
+        initial_data['service'] = service_id
+
     if request.method == 'POST':
         form = RequestForm(request.POST)
         if form.is_valid():
@@ -20,7 +28,8 @@ def service_request(request):
             req.save()
             return redirect('my-requests')
     else:
-        form = RequestForm()
+        form = RequestForm(initial=initial_data)
+
     return render(request, 'services/service_request.html', {'form': form})
 
 

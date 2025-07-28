@@ -1,65 +1,42 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>طلب خدمة | الخدمات الإلكترونية السورية</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      AOS.init({ duration: 1000, once: true });
-    });
-  </script>
-</head>
-<body class="bg-gray-50 text-gray-800">
-  <header class="bg-blue-900 text-white p-4 flex justify-between items-center shadow">
-    <div class="flex items-center gap-4">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Coat_of_arms_of_Syria.svg/64px-Coat_of_arms_of_Syria.svg.png" alt="شعار سوريا" class="w-10 h-10">
-      <div>
-        <h1 class="text-xl font-bold">الجمهورية العربية السورية</h1>
-        <p class="text-sm">طلب خدمة إلكترونية</p>
-      </div>
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}طلب خدمة | الخدمات الإلكترونية السورية{% endblock %}
+
+{% block content %}
+<section class="max-w-3xl mx-auto mt-12 p-8 bg-white rounded-xl shadow-lg" dir="rtl">
+  <div class="flex items-center gap-4 mb-8 justify-center" dir="rtl">
+  <img src="{% static 'img/logo.jpg' %}" alt="شعار سوريا" class="w-12 h-12">
+  <div>
+    <h2 class="text-2xl font-bold text-blue-900">الجمهورية العربية السورية</h2>
+    <p class="text-gray-700">طلب خدمة إلكترونية</p>
+  </div>
+</div>
+
+
+  <form method="post" class="space-y-6 text-right">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <div>
+      <label class="block mb-2 font-semibold text-gray-800">الخدمة المطلوبة:</label>
+      {% render_field form.service class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-right" %}
     </div>
-    <nav class="space-x-4 rtl:space-x-reverse">
-      <a href="/services/" class="hover:underline">الخدمات</a>
-      <a href="/services/طلباتي/" class="hover:underline">طلباتي</a>
-    </nav>
-  </header>
 
-  <main class="max-w-3xl mx-auto mt-12 p-6 bg-white rounded-xl shadow-xl" data-aos="fade-up">
-    <h2 class="text-2xl font-bold mb-6 text-blue-900 text-center">تقديم طلب جديد</h2>
+    <div>
+      <label class="block mb-2 font-semibold text-gray-800">الاسم الكامل:</label>
+      {% render_field form.full_name class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-right" %}
+    </div>
 
-    <form method="post" class="space-y-6">
-      {% csrf_token %}
-      {{ form.non_field_errors }}
+    <div>
+      <label class="block mb-2 font-semibold text-gray-800">الرقم الوطني:</label>
+      {% render_field form.national_id class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-right" %}
+    </div>
 
-      <div>
-        <label class="block mb-1 text-gray-700 font-medium">الخدمة المطلوبة:</label>
-        {{ form.service }}
-      </div>
-
-      <div>
-        <label class="block mb-1 text-gray-700 font-medium">الاسم الكامل:</label>
-        {{ form.full_name }}
-      </div>
-
-      <div>
-        <label class="block mb-1 text-gray-700 font-medium">الرقم الوطني:</label>
-        {{ form.national_id }}
-      </div>
-
-      <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg shadow">
-        تقديم الطلب
-      </button>
-    </form>
-  </main>
-
-  <footer class="bg-gray-100 mt-12 border-t py-6 text-center text-sm text-gray-700 relative">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Flag_of_Syria.svg/1280px-Flag_of_Syria.svg.png" alt="العلم السوري" class="w-24 absolute left-4 top-1">
-    <p>© الجمهورية العربية السورية – جميع الحقوق محفوظة</p>
-    <p>📞 0111234567 | 📍 دمشق - ساحة الأمويين</p>
-  </footer>
-</body>
-</html>
+    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg shadow font-semibold transition">
+      تقديم الطلب
+    </button>
+  </form>
+</section>
+{% endblock %}
