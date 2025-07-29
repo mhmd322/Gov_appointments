@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'appointments',
     'services',
     'widget_tweaks',
+
 ]
 
 MIDDLEWARE = [
@@ -70,6 +71,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'users.context_processors.user_role_processor',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],

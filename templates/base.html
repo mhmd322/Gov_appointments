@@ -1,25 +1,20 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>المنصة الحكومية السورية</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       AOS.init({ duration: 800, once: true });
-
       const welcomeMessage = document.getElementById("welcome-popup");
       if (welcomeMessage) {
-        setTimeout(() => {
-          welcomeMessage.classList.remove("hidden");
-        }, 500);
-        setTimeout(() => {
-          welcomeMessage.classList.add("hidden");
-        }, 5000);
+        setTimeout(() => welcomeMessage.classList.remove("hidden"), 500);
+        setTimeout(() => welcomeMessage.classList.add("hidden"), 5000);
       }
     });
   </script>
@@ -27,35 +22,69 @@
 <body class="bg-gray-50 text-gray-900">
   {% if messages %}
     <div id="welcome-popup" class="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg hidden z-50">
-      {% for message in messages %}
-        {{ message }}
-      {% endfor %}
+      {% for message in messages %}{{ message }}{% endfor %}
     </div>
   {% endif %}
 
   <header class="bg-blue-900 text-white shadow sticky top-0 z-50">
-    <div class="container mx-auto flex justify-between items-center px-6 py-3">
-      <div class="flex items-center gap-2">
-        <img src="{% static 'img/logo.jpg' %}" alt="شعار الجمهورية" class="w-10 h-10">
+    <div class="max-w-7xl mx-auto flex flex-row-reverse justify-between items-center px-6 py-3">
+      <a href="/" class="flex items-center gap-2">
+        <img src="{% static 'img/logo.jpg' %}" alt="شعار الجمهورية" class="w-10 h-10" />
         <span class="font-bold text-lg md:text-xl whitespace-nowrap">الجمهورية العربية السورية</span>
-      </div>
-      <nav class="flex gap-4 md:gap-8 items-center text-sm md:text-base">
-        <a href="/" class="hover:underline">الرئيسية</a>
-        <a href="/services/" class="hover:underline">الخدمات</a>
-        <a href="/appointments/booking/" class="hover:underline">حجز موعد</a>
-        <a href="/appointments/my_appointments/" class="hover:underline">مواعيدي</a>
+      </a>
+
+      <div class="flex flex-row-reverse items-center gap-6">
+        <nav class="flex gap-2 md:gap-4 items-center text-sm md:text-base">
+          <a href="/" class="hover:underline">الرئيسية</a>
+          <a href="/services/" class="hover:underline">الخدمات</a>
+
+          {% if user.is_authenticated %}
+            {% if user_role == UserRole.CITIZEN %}
+              <a href="{% url 'my-requests' %}" class="hover:underline">طلباتي</a>
+              <a href="/appointments/booking/" class="hover:underline">حجز موعد</a>
+              <a href="/appointments/my_appointments/" class="hover:underline">مواعيدي</a>
+              <a href="{% url 'profile' %}" class="hover:underline">ملفي الشخصي</a>
+              
+
+            {% elif user_role == UserRole.EMPLOYEE %}
+              <a href="{% url 'employee-requests' %}" class="hover:underline">طلبات المواطنين</a>
+              <a href="{% url 'employee-dashboard' %}" class="hover:underline">حجوزات المواطنين</a>
+              <a href="{% url 'profile' %}" class="hover:underline">ملفي الشخصي</a>
+
+            {% elif user_role == UserRole.ADMIN %}
+              <a href="{% url 'admin-appointments' %}" class="hover:underline">مواعيد المسؤول</a>
+              <a href="{% url 'admin-stats' %}" class="hover:underline">لوحة الاحصائيات</a>
+              <a href="{% url 'profile' %}" class="hover:underline">ملفي الشخصي</a>
+
+            {% else %}
+              <a href="/appointments/booking/" class="hover:underline">حجز موعد</a>
+              <a href="/appointments/my_appointments/" class="hover:underline">مواعيدي</a>
+              <a href="{% url 'profile' %}" class="hover:underline">ملفي الشخصي</a>
+            {% endif %}
+          {% endif %}
+        </nav>
 
         {% if user.is_authenticated %}
-          <span class="text-white font-semibold">مرحباً، {{ user.username }}</span>
-          <form method="post" action="{% url 'logout' %}" class="inline">
-            {% csrf_token %}
-            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">تسجيل الخروج</button>
-          </form>
+        <div class="flex items-center gap-4">
+         <div class="bg-green-100 text-green-800 px-4 py-1 rounded-full shadow flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600" viewBox="0 0 20 20" fill="currentColor">
+           <path d="M10 2a6 6 0 00-6 6v2a4 4 0 01-1 2.65V14a2 2 0 002 2h10a2 2 0 002-2v-1.35A4 4 0 0116 10V8a6 6 0 00-6-6z" />
+          </svg>
+          <span class="font-semibold">مرحباً، {{ user.username }}</span>
+         </div>
+  
+         <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded shadow">تسجيل الخروج</button>
+         </form>
+        </div>
         {% else %}
-          <a href="/accounts/login/" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded">دخول</a>
-          <a href="/accounts/register/" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">تسجيل</a>
+          <div class="flex items-center gap-2">
+            <a href="/accounts/login/" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded">دخول</a>
+            <a href="/accounts/register/" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">تسجيل</a>
+          </div>
         {% endif %}
-      </nav>
+      </div>
     </div>
   </header>
 
@@ -65,7 +94,7 @@
 
   <footer class="bg-white mt-12 border-t py-6 text-center text-sm text-gray-600">
     <div class="flex flex-col items-center gap-2">
-      <img src="{% static 'img/flag.png' %}" alt="علم سوريا" class="w-12 h-auto">
+      <img src="{% static 'img/flag.png' %}" alt="علم سوريا" class="w-12 h-auto" />
       <p>© الجمهورية العربية السورية – جميع الحقوق محفوظة</p>
       <p>📍 دمشق، سوريا – ☎ 011-1234567</p>
     </div>

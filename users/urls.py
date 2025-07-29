@@ -1,5 +1,5 @@
 from django.urls import path
-from accounts.views import CustomLoginView  # استيراد من accounts
+from accounts.views import CustomLoginView  # استيراد من حسابات
 from .views import redirect_after_login, profile_view, employee_dashboard
 from django.contrib.auth.views import LogoutView
 
@@ -10,6 +10,3 @@ urlpatterns = [
     path('profile/', profile_view, name='profile'),
     path('dashboard/', employee_dashboard, name='employee-dashboard'),
 ]
-
-# users/urls.py
-# This file defines the URL patterns for user-related views, such as redirecting after login based
