@@ -17,9 +17,12 @@ urlpatterns = [
     path('auth/', include('djoser.urls.jwt')),
     # مسارات المستخدمين
     path('users/', include('users.urls')),
+
     # مسارات المواعيد
     path('appointments/', include('appointments.urls')),
     # مسارات الخدمات
     path('services/', include('services.urls')),
-
+    
+    # مسارات API
+    path('api/', include('gov_appointments.api_urls')),
 ]
